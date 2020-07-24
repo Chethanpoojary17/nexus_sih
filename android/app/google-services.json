@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "350026002728",
+    "firebase_url": "https://dfs-nexus.firebaseio.com",
+    "project_id": "dfs-nexus",
+    "storage_bucket": "dfs-nexus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350026002728:android:9a6f7ba951c89ecf11e01d",
+        "android_client_info": {
+          "package_name": "com.xti.nexus_sih"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350026002728-fqt846357imlrecu62cab7bgb8je80rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYASXVGTcQ1ddHXEbJW0PIWgEaEZ8pzNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350026002728-fqt846357imlrecu62cab7bgb8je80rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
