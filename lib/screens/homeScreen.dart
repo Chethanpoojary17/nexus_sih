@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   new Expanded(child: new Container()),
                     TabBar(
                      tabs: [
-                             Tab(icon: Icon(FontAwesome5.poll)),
+                             Tab(icon: Icon(FontAwesome5.poll),),
                              Tab(icon: Icon(FontAwesome5.newspaper)),
                              Tab(icon: Icon(Brandico.twitter_bird)),
                            ],

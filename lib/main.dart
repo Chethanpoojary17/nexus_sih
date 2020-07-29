@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:nexus_sih/login/login_page.dart';
+import 'package:nexus_sih/screens/profileScreen.dart';
 import 'package:nexus_sih/screens/tabScreen.dart';
-void main() => runApp(MyApp());
+import 'package:firebase_auth/firebase_auth.dart';
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(
+      debug: true // optional: set false to disable printing logs to console
+  );
+  await GetStorage.init();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   static Map<int, Color> color =
@@ -22,10 +34,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterChat',
       theme: ThemeData(
-        primarySwatch: colorCustom,
-        accentColor: Color(0xfff7c4c2),
+        primarySwatch: Colors.blue,
+        accentColor:Color(0xfffff3f3),
       ),
-      home: TabScreen(),
+      home: StreamBuilder(stream: FirebaseAuth.instance.onAuthStateChanged, builder: (ctx, userSnapshot) {
+        if (userSnapshot.hasData) {
+          return TabScreen();
+        }
+        return LoginScreen();
+      }),
     );
   }
 }

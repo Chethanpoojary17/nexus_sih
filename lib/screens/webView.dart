@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:nexus_sih/widget/spinkit.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -40,7 +41,7 @@ class _MyWebViewState extends State<MyWebView> {
               },
             ),
             if(!_finished)
-              Center(child: CircularProgressIndicator()),
+              Center(child: Spinkit()),
           ],
         ));
   }

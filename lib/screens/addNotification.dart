@@ -8,6 +8,7 @@ import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/linearicons_free_icons.dart';
 import 'package:fluttericon/octicons_icons.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 class AddNotification extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class AddNotification extends StatefulWidget {
 }
 
 class _AddNotificationState extends State<AddNotification> {
+  final box=GetStorage();
   String dropdownValue = '';
   List <String> spinnerItems = [
     'Punjab National Bank',
@@ -108,7 +110,7 @@ class _AddNotificationState extends State<AddNotification> {
     double height3 = height - padding.top - kToolbarHeight;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post Circular'),
+        title: Text('Post Notification'),
       ),
       body: SingleChildScrollView(
         child: Card(

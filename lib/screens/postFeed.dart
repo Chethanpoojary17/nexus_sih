@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:get_storage/get_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,9 @@ class PostFeed extends StatefulWidget {
 }
 
 class _PostFeedState extends State<PostFeed> {
+  final box=GetStorage();
   var title = '', description = '', content = '';
-  var user='Chethan',proPic='url';
+  var user='Chethan',proPic='url',uid='';
   final _feedPost = GlobalKey<FormState>();
   File _pickedImage;
   bool _isLoading=false;
@@ -37,6 +38,9 @@ class _PostFeedState extends State<PostFeed> {
     FocusScope.of(context).unfocus();
 
     if (isValid) {
+      user=box.read('currentUname');
+      uid=box.read('currentUid');
+      proPic=box.read('currentProfile');
       _feedPost.currentState.save();
       try {
         setState(() {
@@ -49,7 +53,7 @@ class _PostFeedState extends State<PostFeed> {
           final ref = FirebaseStorage.instance
               .ref()
               .child('post_image')
-              .child('User'+suffix+'.jpg');
+              .child(uid+suffix+'.jpg');
 
           await ref.putFile(_pickedImage).onComplete;
 
@@ -59,20 +63,20 @@ class _PostFeedState extends State<PostFeed> {
         bool type;
         (widget.typePost.compareTo('Photo') == 0) ? type = true : type = false;
         await Firestore.instance.collection('newsfeed').add({
-          'name': user,
-          'Title': title,
-          'Description': description,
+          'name': user.trim(),
+          'Title': title.trim(),
+          'Description': description.trim(),
           'proPic': proPic,
           'type': type,
-          'content': content,
-          'Time':'17-jun-2020'
+          'content': content.trim(),
+          'Time':Timestamp.now()
         });
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop(true);
       } on PlatformException catch (err) {
-        var message = 'An error occurred, pelase check your credentials!';
+        var message = 'An error occurred, please check your credentials!';
 
         if (err.message != null) {
           message = err.message;
@@ -202,6 +206,7 @@ class _PostFeedState extends State<PostFeed> {
           ),
         ),
       ),
+
     );
   }
 }

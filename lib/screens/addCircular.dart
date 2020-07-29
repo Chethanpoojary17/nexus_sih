@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:get_storage/get_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,6 +16,7 @@ class AddCircular extends StatefulWidget {
 
 class _AddCircularState extends State<AddCircular> {
   String dropdownValue = '';
+  final box=GetStorage();
   List <String> spinnerItems = [
     'AC',
     'Establishment',
@@ -66,12 +67,12 @@ class _AddCircularState extends State<AddCircular> {
           final url = await ref.getDownloadURL();
 
         await Firestore.instance.collection('circular').add({
-          'subject': subject,
-          'section': dropdownValue,
-          'category': category,
+          'subject': subject.trim(),
+          'section': dropdownValue.trim(),
+          'category': category.trim(),
           'pdfUrl': url,
           'date': Timestamp.now(),
-          'circularNo': circno,
+          'circularNo': circno.trim(),
         });
         setState(() {
           _isLoading = false;

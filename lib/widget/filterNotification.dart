@@ -4,7 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 class FilterNotification extends StatefulWidget {
   final Function filterNot;
-  FilterNotification(this.filterNot);
+  final currentOrg;
+  final DateTime _currentFromDate, _currentToDate;
+  final bool filtered;
+  FilterNotification(this.filterNot,this.currentOrg,this._currentFromDate,this._currentToDate,this.filtered);
   @override
   _FilterNotificationState createState() => _FilterNotificationState();
 }
@@ -12,6 +15,8 @@ class FilterNotification extends StatefulWidget {
 class _FilterNotificationState extends State<FilterNotification> {
   DateTime _selectedFromDate, _selectedToDate;
   var organization = '', subject = '', dateFrom, dateTo;
+
+  var filterApplied=0;
   List<String> spinnerItems = [
     'Punjab National Bank',
     'Union Bank of India	',
@@ -38,7 +43,6 @@ class _FilterNotificationState extends State<FilterNotification> {
     });
     print('...');
   }
-
   void _presentDatePicker2() {
     showDatePicker(
       context: context,
@@ -55,6 +59,7 @@ class _FilterNotificationState extends State<FilterNotification> {
     });
     print('...');
   }
+
   Widget textDisplay(String text, double size, FontWeight fweight) {
     return AutoSizeText(
       text,
@@ -68,7 +73,9 @@ class _FilterNotificationState extends State<FilterNotification> {
       overflow: TextOverflow.ellipsis,
     );
   }
+
   final _filterKey = GlobalKey<FormState>();
+
   void _trySubmit() async {
     final isValid = _filterKey.currentState.validate();
     FocusScope.of(context).unfocus();
@@ -77,17 +84,18 @@ class _FilterNotificationState extends State<FilterNotification> {
       widget.filterNot(
         subject,organization,_selectedFromDate,_selectedToDate
       );
-
+      Navigator.of(context).pop(true);
     }
   }
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(
           top: 10,
-          left: 10,
-          right: 10,
+          left: MediaQuery.of(context).size.width*0.06,
+          right: MediaQuery.of(context).size.width*0.06,
           bottom: MediaQuery.of(context).viewInsets.bottom + 10,
         ),
         decoration: BoxDecoration(
@@ -103,40 +111,26 @@ class _FilterNotificationState extends State<FilterNotification> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               textDisplay('Filters', 20, FontWeight.bold),
-              TextFormField(
-                key: ValueKey(subject),
-                decoration: InputDecoration(
-                  labelText: 'Subject',
-                  hintText: 'Enter the subject to search',
-                ),
-//                validator: (value){
-//                  if(value.isEmpty)
-//                    return 'Subject cant be empty';
-//                  return null;
-//                },
-                onChanged: (value){
-                  subject=value;
-                },
-              ),
+//              TextField(onChanged: (value){
+//                subject=value;
+//              },decoration: InputDecoration(labelText: 'Subject'),),
               DropdownButtonFormField(
                 key: ValueKey('organization'),
+                value: (widget.currentOrg.isNotEmpty)?widget.currentOrg:null,
                 icon: Icon(Icons.arrow_drop_down),
                 iconSize: 24,
                 elevation: 16,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                   hintText: 'Select the Organization',
                   labelText: 'Organization',
                 ),
-                validator: (String data){
-                  if(data.isEmpty)
-                    return 'Please select one Organization';
-                  return null;
-                },
-                onChanged: (String data) {
-                  setState(() {
-                    organization = data;
-                  });
+               validator: (value){
+                  if(value.toString().isEmpty)
+                    return 'This cant be empty!!';
+                        return null;
+                 },
+                onChanged: (value){
+                  organization=value.toString();
                 },
                 items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
@@ -152,9 +146,9 @@ class _FilterNotificationState extends State<FilterNotification> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(
-                      child: textDisplay(_selectedFromDate == null
+                      child: textDisplay((_selectedFromDate == null&&widget._currentFromDate==null)
                           ? 'From: No Date Chosen!'
-                          : 'From: ${DateFormat.yMd().format(_selectedFromDate)}', 15, FontWeight.bold),
+                          : 'From: ${DateFormat.yMd().format((_selectedFromDate==null)?widget._currentFromDate:_selectedFromDate)}', 15, FontWeight.bold),
                     ),
                     FlatButton(
                       textColor: Theme.of(context).primaryColor,
@@ -176,9 +170,9 @@ class _FilterNotificationState extends State<FilterNotification> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Expanded(
-                      child: textDisplay(_selectedToDate == null
+                      child: textDisplay((_selectedToDate == null&&widget._currentToDate==null)
                           ? 'To: No Date Chosen!'
-                          : 'To: ${DateFormat.yMd().format(_selectedToDate)}', 15, FontWeight.bold),
+                          : 'To: ${DateFormat.yMd().format((_selectedToDate==null)?widget._currentToDate:_selectedToDate)}', 15, FontWeight.bold),
                     ),
                     FlatButton(
                       textColor: Theme.of(context).primaryColor,
@@ -193,6 +187,15 @@ class _FilterNotificationState extends State<FilterNotification> {
                   ],
                 ),
               ),
+              (widget.filtered)?
+              RaisedButton(
+                onPressed:(){
+                  widget.filterNot(subject,organization,_selectedFromDate,_selectedToDate);
+                  Navigator.of(context).pop(true);
+                },
+                color: Theme.of(context).primaryColor,
+                child: Text('Clear applied filter',style: TextStyle(color: Colors.white),),
+              ):
               RaisedButton(
                 onPressed:_trySubmit,
                 color: Theme.of(context).primaryColor,
