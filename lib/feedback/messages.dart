@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nexus_sih/feedback/message_bubble.dart';
 class Messages extends StatefulWidget {
   final toUid,toName,toProfile;
@@ -34,7 +36,13 @@ class _MessagesState extends State<Messages> {
                 );
               }
               final chatDocs = chatSnapshot.data.documents;
-              return ListView.builder(
+              return (chatDocs.isEmpty)?Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Lottie.asset('assets/images/empty.json'),
+                  Text('Send any suggestion or Feedback',style: GoogleFonts.lato( fontSize: 20,),)
+                ],
+              ):ListView.builder(
                 reverse: true,
                 itemCount: chatDocs.length,
                 itemBuilder: (ctx, index) => MessageBubble(

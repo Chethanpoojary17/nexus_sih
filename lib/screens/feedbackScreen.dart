@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nexus_sih/feedback/fbPage.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class FeedbackScreen extends StatefulWidget {
 class _FeedbackScreenState extends State<FeedbackScreen> {
   final box = GetStorage();
   var feedbacksnap;
-  List<String> uname, upropic, uid, utype;
+  List<String> uname=[], upropic=[], uid=[], utype=[];
 
   getUsers() async {
     if (box.read('category') == 'Tier 1') {
@@ -48,9 +49,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: Firestore.instance
+        stream:Firestore.instance
             .collection('Profile')
-            .where('category', isEqualTo: 'Tier 1')
+            .where('category', isEqualTo: 'Tier-1')
             .snapshots(),
         builder: (context, streamSnapshot) {
           if (streamSnapshot.connectionState == ConnectionState.waiting)
@@ -58,7 +59,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               child: CircularProgressIndicator(),
             );
           final documents = streamSnapshot.data.documents;
-          return (box.read('category') == 'Tier 2')
+          return (box.read('category') == 'Tier-2')
               ? ListView.builder(
                   itemCount: documents.length,
                   itemBuilder: (context, index) {
@@ -99,7 +100,13 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       ),
                     );
                   })
-              : ListView.builder(
+              :(uid.isEmpty)?Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Lottie.asset('assets/images/empty.json'),
+                  Text('No FeedBacks..',style: GoogleFonts.lato( fontSize: 20,),)
+                ],
+              ): ListView.builder(
                   itemCount: uid.length,
                   itemBuilder: (context, index) {
                     return Padding(

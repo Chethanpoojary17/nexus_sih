@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  characters:
+    dependency: transitive
+    description:
+      name: characters
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   charcode:
     dependency: transitive
     description:
@@ -211,6 +218,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.6"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.16"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -387,6 +401,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.4"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   matcher:
     dependency: transitive
     description:
@@ -539,6 +567,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliverbar_with_card:
+    dependency: "direct main"
+    description:
+      name: sliverbar_with_card
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   source_span:
     dependency: transitive
     description:

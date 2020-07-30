@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:nexus_sih/widget/spinkit.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 class TwitterScreen extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _TwitterScreenState extends State<TwitterScreen> {
       child: Stack(
         children: <Widget>[
           WebView(
-            initialUrl: "https://twitter.com/DFS_India?ref_src=twsrc%5Etfw",
+            initialUrl: "https://www.xtoinfinity.tech/sih/twitterPage.html",
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) {
               _controller.complete(webViewController);
@@ -27,7 +28,7 @@ class _TwitterScreenState extends State<TwitterScreen> {
             },
           ),
           if(!_finished)
-            Center(child: CircularProgressIndicator()),
+            Center(child: Spinkit()),
         ],
       ) ,
     );

@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     900:Color.fromRGBO(	172, 29, 22, 1),
   };
   MaterialColor colorCustom = MaterialColor(0xFFac1d16, color);
+  final box=GetStorage();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,12 +38,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor:Color(0xfffff3f3),
       ),
-      home: StreamBuilder(stream: FirebaseAuth.instance.onAuthStateChanged, builder: (ctx, userSnapshot) {
-        if (userSnapshot.hasData) {
-          return TabScreen();
-        }
-        return LoginScreen();
-      }),
+      home:(box.hasData('currentUid'))?TabScreen():LoginScreen(),
     );
   }
 }

@@ -17,7 +17,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  String name, category, email, govtid, password, phone;
+  String name, category, email, govtid, password, phone,designation;
 
   final _text = TextEditingController();
   final db = Firestore.instance;
@@ -67,6 +67,50 @@ class _SignupScreenState extends State<SignupScreen> {
       ],
     );
   }
+  Widget _builddesignationTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Designation',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if ((value.isEmpty) || (value.length < 3)) {
+                return "      Invalid designation ";
+              }
+              return null;
+            },
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.account_box,
+                color: Colors.white,
+              ),
+              hintText: 'Enter your Designation',
+              hintStyle: kHintTextStyle,
+            ),
+            onChanged: (value) {
+              this.designation = value;
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
 
   Widget _buildUseridTF() {
     bool _validate = false;
@@ -378,6 +422,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'phone': this.phone,
           'userid': user.user.uid,
           'proPic':url,
+          'type':designation,
         });
         setState(() {
           _isLoading=false;
@@ -471,6 +516,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         SizedBox(
                           height: 30.0,
                         ),
+                        _builddesignationTF(),
+                        SizedBox(height: 30.0),
                         _buildEmailTF(),
                         SizedBox(height: 30.0),
                         _buildPasswordTF(),
