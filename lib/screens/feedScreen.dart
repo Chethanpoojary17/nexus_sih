@@ -85,96 +85,94 @@ ScrollController hcont;
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Card(
-                        shadowColor: Theme.of(context).primaryColor,
-                        elevation: 5,
+                        elevation: 2,
                         margin: EdgeInsets.symmetric(
                           vertical: 8,
-                          horizontal: 5,
+                          horizontal: 0,
                         ),
-                        child: Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Card(
-                                elevation: 0,
-                                child: Container(
-                                  height: height3 * 0.1,
-                                  width: width * 1,
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.all(4),
-                                    leading: CircleAvatar(
-                                      radius: 30.0,
-                                      backgroundImage: NetworkImage(
-                                          documents[index]['proPic']),
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                    title: textDisplay(documents[index]['name'], 20, FontWeight.bold,
-                                        TextAlign.start, 1),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Card(
+                              elevation: 0,
+                              child: Container(
+                                height: height3 * 0.1,
+                                width: width * 1,
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.all(4),
+                                  leading: CircleAvatar(
+                                    radius: 30.0,
+                                    backgroundImage: NetworkImage(
+                                        documents[index]['proPic']),
+                                    backgroundColor: Colors.transparent,
                                   ),
+                                  title: textDisplay(documents[index]['name'], 20, FontWeight.bold,
+                                      TextAlign.start, 1),
                                 ),
                               ),
-                              Divider(),
-                              (documents[index]['type'])?
-                              InkWell(
-                                onTap: (){
+                            ),
+                            Divider(),
+                            (documents[index]['type'])?
+                            InkWell(
+                              onTap: (){
 //                                  Navigator.of(context).push(MaterialPageRoute(
 //                                      builder: (BuildContext context) => SilverPage()));
-                                },
-                                child: Container(
-                                  height: height3 * 0.4,
-                                  width: width * 1,
-                                  child: Image.network(
-                                    documents[index]['content'],
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ):
-                              Container(
+                              },
+                              child: Container(
                                 height: height3 * 0.4,
                                 width: width * 1,
-                                child: Center(
-                                  child: Linkify(
-                                    onOpen: (link) async {
-                                      {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (BuildContext context) => MyWebView(
-                                              title: documents[index]['Title'],
-                                              selectedUrl: link.url,
-                                            )));
-                                      }
-                                    },
-                                    text: documents[index]['content'],
-                                    style: GoogleFonts.lato(
-                                      textStyle:
-                                      TextStyle(fontSize: 20, letterSpacing: .5, fontWeight: FontWeight.normal),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    linkStyle: TextStyle(color: Colors.red),
+                                child: Image.network(
+                                  documents[index]['content'],
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ):
+                            Container(
+                              height: height3 * 0.4,
+                              width: width * 1,
+                              child: Center(
+                                child: Linkify(
+                                  onOpen: (link) async {
+                                    {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (BuildContext context) => MyWebView(
+                                            title: documents[index]['Title'],
+                                            selectedUrl: link.url,
+                                          )));
+                                    }
+                                  },
+                                  text: documents[index]['content'],
+                                  style: GoogleFonts.lato(
+                                    textStyle:
+                                    TextStyle(fontSize: 20, letterSpacing: .5, fontWeight: FontWeight.normal),
                                   ),
+                                  textAlign: TextAlign.center,
+                                  linkStyle: TextStyle(color: Colors.red),
                                 ),
                               ),
-                              textDisplay(documents[index]['Title'], 18, FontWeight.bold,
-                                  TextAlign.start, 1),
-                              Theme(
-                                data: ThemeData(
-                                  primaryColor: Colors.black,
-                                  accentColor: Colors.blue
-                                ),
-                                child: ExpansionTile(
-                                  title: textDisplay('Description', 18, FontWeight.bold,
-                                      TextAlign.start, 1),
+                            ),
+                            textDisplay(documents[index]['Title'], 18, FontWeight.bold,
+                                TextAlign.start, 1),
+                            Theme(
+                              data: ThemeData(
+                                primaryColor: Colors.black,
+                                accentColor: Colors.blue
+                              ),
+                              child: ExpansionTile(
+                                title: textDisplay('Description', 18, FontWeight.bold,
+                                    TextAlign.start, 1),
 
-                                  children: <Widget>[
-                                    textDisplay(
-                                        documents[index]['Description'],
-                                        15,
-                                        FontWeight.normal,
-                                        TextAlign.start,
-                                         5),
-                                  ],
-                                ),
+                                children: <Widget>[
+                                  textDisplay(
+                                      documents[index]['Description'],
+                                      15,
+                                      FontWeight.normal,
+                                      TextAlign.start,
+                                       5),
+                                ],
                               ),
+                            ),
 
 //                                textDisplay(
 //                                    documents[index]['Description'],
@@ -182,10 +180,9 @@ ScrollController hcont;
 //                                    FontWeight.normal,
 //                                    TextAlign.start,
 //                                    2),
-                              textDisplay(DateFormat('MMMM-dd, hh:mm').format(DateTime.fromMicrosecondsSinceEpoch(documents[index]['Time'].microsecondsSinceEpoch)), 12, FontWeight.normal,
-                                  TextAlign.center, 1)
-                            ],
-                          ),
+                            textDisplay(DateFormat('MMMM-dd, hh:mm').format(DateTime.fromMicrosecondsSinceEpoch(documents[index]['Time'].microsecondsSinceEpoch)), 12, FontWeight.normal,
+                                TextAlign.center, 1)
+                          ],
                         ),
                       );
                     });

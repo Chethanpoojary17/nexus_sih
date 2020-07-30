@@ -202,6 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: RaisedButton(
                                 onPressed: ()async{
                                  var user= await FirebaseAuth.instance.signOut();
+                                 box.erase();
                                 },
                                 child: Text(
                                   'Log Out',

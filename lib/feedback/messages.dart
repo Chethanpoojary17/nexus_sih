@@ -47,7 +47,7 @@ class _MessagesState extends State<Messages> {
                 itemCount: chatDocs.length,
                 itemBuilder: (ctx, index) => MessageBubble(
                   chatDocs[index]['content'],
-                  chatDocs[index]['toName'],
+                  chatDocs[index]['fromName'],
                   chatDocs[index]['fromUid'] == box.read(('currentUid')),
                   key: ValueKey(chatDocs[index].documentID),
                 ),

@@ -1,5 +1,7 @@
+import 'package:bubble/bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble(this.message, this.userName, this.isMe, {this.key});
@@ -11,54 +13,52 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            color: isMe ? Colors.grey[300] : Theme.of(context).accentColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-              bottomLeft: !isMe ? Radius.circular(0) : Radius.circular(12),
-              bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
-            ),
-          ),
-          width: 140,
-          padding: EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 16,
-          ),
-          margin: EdgeInsets.symmetric(
-            vertical: 4,
-            horizontal: 8,
-          ),
-          child: Column(
-            crossAxisAlignment:
-                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                userName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: isMe
-                      ? Colors.black
-                      : Theme.of(context).accentTextTheme.title.color,
-                ),
+
+    final _mediaQuery = MediaQuery.of(context).size;
+
+    if(isMe){
+      return Bubble(
+        alignment: Alignment.topRight,
+        color: Colors.blue,
+        nip: BubbleNip.rightBottom,
+        elevation: 2,
+        margin: BubbleEdges.only(top: 10, right: 10,bottom: 5),
+        child: Container(
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.75),
+          child:
+          Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: _mediaQuery.height*0.03, right: _mediaQuery.width*0.03,top: _mediaQuery.height*0.01, left: _mediaQuery.width*0.01),
+                child: Text(message, style: GoogleFonts.lato(color: Colors.white,fontSize: 17),textAlign: TextAlign.start,),
               ),
-              Text(
-                message,
-                style: TextStyle(
-                  color: isMe
-                      ? Colors.black
-                      : Theme.of(context).accentTextTheme.title.color,
-                ),
-                textAlign: isMe ? TextAlign.end : TextAlign.start,
-              ),
+              Positioned(right: 2, bottom: 2,child: Text("9:30am",style: TextStyle(color: Color(0xbfffffff), fontSize: 12),textAlign: TextAlign.end, ),)
             ],
           ),
-        ),
-      ],
-    );
+        )
+      );
+    }else{
+      return Bubble(
+          alignment: Alignment.topLeft,
+          color: Colors.white,
+          nip: BubbleNip.leftBottom,
+          elevation: 2,
+          margin: BubbleEdges.only(top: 10, left: 10,bottom: 5),
+          child: Container(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.75),
+            child:
+            Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: _mediaQuery.height*0.03, right: _mediaQuery.width*0.03,top: _mediaQuery.height*0.01, left: _mediaQuery.width*0.01),
+                  child: Text(message, style: GoogleFonts.lato(color: Colors.black,fontSize: 17),textAlign: TextAlign.start,),
+                ),
+                Positioned(right: 2, bottom: 2,child: Text("9:30am",style: TextStyle(color: Colors.black54, fontSize: 12),textAlign: TextAlign.end, ),)
+              ],
+            ),
+          )
+      );
+    }
+
   }
 }

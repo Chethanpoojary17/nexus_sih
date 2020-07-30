@@ -17,17 +17,19 @@ class NotificationScreen extends StatefulWidget {
   _NotificationScreenState createState() => _NotificationScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> with SingleTickerProviderStateMixin{
-  bool filter=false;
+class _NotificationScreenState extends State<NotificationScreen>
+    with SingleTickerProviderStateMixin {
+  bool filter = false;
   var filtered;
-  var organizationnew='';
-  DateTime startDatenew,endDatenew;
+  var organizationnew = '';
+  DateTime startDatenew, endDatenew;
   Animation<double> _animation;
   AnimationController _animationController;
   IconData ic = Icons.add;
   var cbit = 1;
-  var filterString =['All','Pension Reforms','Banking','Insurance'];
- final box=GetStorage();
+  var filterString = ['All', 'Pension Reforms', 'Banking', 'Insurance'];
+  final box = GetStorage();
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -36,31 +38,32 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
     );
 
     final curvedAnimation =
-    CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     super.initState();
   }
 
-  _filterItems(String subject,String organization,DateTime startDate,DateTime endDate){
-    if(!filter){
-    this.organizationnew=organization;
-    this.startDatenew=startDate;
-    this.endDatenew=endDate;
-    filtered=Firestore.instance
-        .collection('notification')
-        .where('organization',whereIn: ['$organizationnew'])
-        .snapshots();
+  _filterItems(String subject, String organization, DateTime startDate,
+      DateTime endDate) {
+    if (!filter) {
+      this.organizationnew = organization;
+      this.startDatenew = startDate;
+      this.endDatenew = endDate;
+      filtered = Firestore.instance
+          .collection('notification')
+          .where('organization', whereIn: ['$organizationnew']).snapshots();
       print(organization.trim());
-    setState(() {
-      filter=true;
-    });}else{
       setState(() {
-        filter=false;
+        filter = true;
+      });
+    } else {
+      setState(() {
+        filter = false;
       });
     }
-
   }
+
   Widget textDisplay(String text, double size, FontWeight fweight) {
     return AutoSizeText(
       text,
@@ -74,12 +77,13 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
       overflow: TextOverflow.ellipsis,
     );
   }
+
   Widget textDisplay2(String text, double size, FontWeight fweight) {
     return AutoSizeText(
       text,
       style: GoogleFonts.lato(
         textStyle:
-        TextStyle(fontSize: size, letterSpacing: .5, fontWeight: fweight),
+            TextStyle(fontSize: size, letterSpacing: .5, fontWeight: fweight),
       ),
       textAlign: TextAlign.start,
       maxLines: 1,
@@ -87,6 +91,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
       overflow: TextOverflow.ellipsis,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -94,11 +99,13 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
     var padding = MediaQuery.of(context).padding;
     double height3 = height - padding.top - kToolbarHeight;
     return Scaffold(
-      body:StreamBuilder(
-        stream:(filter)?filtered: Firestore.instance
-            .collection('notification')
-            .orderBy('date', descending: true)
-            .snapshots(),
+      body: StreamBuilder(
+        stream: (filter)
+            ? filtered
+            : Firestore.instance
+                .collection('notification')
+                .orderBy('date', descending: true)
+                .snapshots(),
         builder: (context, streamSnapshot) {
           if (streamSnapshot.connectionState == ConnectionState.waiting)
             return Center(
@@ -109,7 +116,6 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
             itemCount: documents.length,
             itemBuilder: (context, index) {
               return Card(
-                shadowColor: Theme.of(context).primaryColor,
                 elevation: 5,
                 margin: EdgeInsets.symmetric(
                   vertical: 8,
@@ -124,18 +130,17 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
                               )));
                     },
                     child: Container(
-                      height: height3 * 0.27,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Card(
-                            elevation: 5,
-                            child: Container(
-                                height: height3 * 0.12,
+                      child: Row(
+                        children: [
+                          Container(width: 4,height: height*0.22,color: Colors.blue,),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
                                 width: width * 0.9,
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
 //                                    textDisplay(documents[index]['subject'], 20,
 //                                        FontWeight.bold),
@@ -144,58 +149,62 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
 //                                        15,
 //                                        FontWeight.normal),
                                     ListTile(
-                                      leading: CircleAvatar(
-                                        radius: height3*0.05,
-                                        child: Text((index+1).toString()),
-                                      ),
-                                      title:  textDisplay2(documents[index]['subject'], 20,FontWeight.bold),
-                                      subtitle:  textDisplay2(documents[index]['organization'], 15,FontWeight.normal),
+                                      title: textDisplay2(
+                                          documents[index]['subject'],
+                                          20,
+                                          FontWeight.bold),
+                                      subtitle: textDisplay2(
+                                          documents[index]['organization'],
+                                          15,
+                                          FontWeight.normal),
                                     )
                                   ],
-                                )),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Card(
-                                elevation: 2,
-                                child: Container(
-                                  height: height3 * 0.08,
-                                  width: width * 0.4,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      textDisplay('Date:', 15, FontWeight.bold),
-                                      textDisplay(
-                                          DateFormat('MMMM-dd, hh:mm').format(
-                                              DateTime.fromMicrosecondsSinceEpoch(
-                                                  documents[index]['date']
-                                                      .microsecondsSinceEpoch)),
-                                          15,
-                                          FontWeight.normal),
-                                    ],
-                                  ),
                                 ),
                               ),
-                              Card(
-                                elevation: 2,
-                                child: Container(
-                                  height: height3 * 0.08,
-                                  width: width * 0.4,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      textDisplay('Notification No:', 15,
-                                          FontWeight.bold),
-                                      textDisplay(
-                                          documents[index]['notificationNo'],
-                                          15,
-                                          FontWeight.normal),
-                                    ],
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Card(
+                                    elevation: 2,
+                                    child: Container(
+                                      height: height3 * 0.08,
+                                      width: width * 0.4,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          textDisplay('Date:', 15, FontWeight.bold),
+                                          textDisplay(
+                                              DateFormat('MMMM-dd, hh:mm').format(
+                                                  DateTime.fromMicrosecondsSinceEpoch(
+                                                      documents[index]['date']
+                                                          .microsecondsSinceEpoch)),
+                                              15,
+                                              FontWeight.normal),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Card(
+                                    elevation: 2,
+                                    child: Container(
+                                      height: height3 * 0.08,
+                                      width: width * 0.4,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          textDisplay('Notification No:', 15,
+                                              FontWeight.bold),
+                                          textDisplay(
+                                              documents[index]['notificationNo'],
+                                              15,
+                                              FontWeight.normal),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -258,7 +267,8 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
                 elevation: 10,
                 context: context,
                 builder: (BuildContext context) {
-                  return FilterNotification(_filterItems,organizationnew,startDatenew,endDatenew,filter);
+                  return FilterNotification(_filterItems, organizationnew,
+                      startDatenew, endDatenew, filter);
                 },
                 barrierColor: Colors.white.withOpacity(0),
                 shape: RoundedRectangleBorder(),
@@ -267,19 +277,20 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
               );
             },
           ),
-          if(box.read('category')=='Tier 1')Bubble(
-            title: "Post",
-            iconColor: Colors.white,
-            bubbleColor: Theme.of(context).primaryColor,
-            icon: Icons.add,
-            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-            onPress: () {
-              _animationController.reverse();
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => AddNotification(),
-              ));
-            },
-          ),
+          if (box.read('category') == 'Tier-1')
+            Bubble(
+              title: "Post",
+              iconColor: Colors.white,
+              bubbleColor: Theme.of(context).primaryColor,
+              icon: Icons.add,
+              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+              onPress: () {
+                _animationController.reverse();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => AddNotification(),
+                ));
+              },
+            ),
           //Floating action menu item
         ],
         animation: _animation,

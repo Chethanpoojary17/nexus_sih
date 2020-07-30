@@ -50,6 +50,7 @@ class _NewMessageState extends State<NewMessage> {
         children: <Widget>[
           Expanded(
             child: TextField(
+              onSubmitted: (_)=> _enteredMessage.trim().isEmpty ? null : _sendMessage(),
               controller: _controller,
               decoration: InputDecoration(labelText: 'Send a message...'),
               onChanged: (value) {

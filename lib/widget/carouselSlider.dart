@@ -11,6 +11,7 @@ class SliderCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.01),
       child: CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 9,
@@ -26,7 +27,10 @@ class SliderCustom extends StatelessWidget {
           scrollDirection: Axis.horizontal,
         ),
         items: slider
-            .map((item) => Container(
+            .map((item) => Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          elevation: 4,
+                  shadowColor: Colors.blue,
                   child: Center(
                       child:
                           Image.network(item, fit: BoxFit.cover, width: 1000)),

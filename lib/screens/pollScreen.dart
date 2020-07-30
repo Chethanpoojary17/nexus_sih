@@ -231,7 +231,7 @@ class _PollScreenState extends State<PollScreen> {
               });
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (box.read('category')=='Tier-1')?FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
             elevation: 5,
@@ -249,7 +249,7 @@ class _PollScreenState extends State<PollScreen> {
           color: Colors.white,
         ),
         backgroundColor:Theme.of(context).primaryColor,
-      ),
+      ):null,
     );
   }
 }

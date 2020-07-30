@@ -60,6 +60,7 @@ dependencies:
   lottie: ^0.5.1
   sliverbar_with_card: ^0.1.5
   firebase_messaging: ^6.0.16
+  bubble: ^1.1.9+1
 
 dev_dependencies:
   flutter_test:

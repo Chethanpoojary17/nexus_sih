@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   int pageindex=3;
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             PollScreen(),
             FeedScreen(),

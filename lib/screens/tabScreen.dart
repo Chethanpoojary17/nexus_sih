@@ -25,7 +25,7 @@ class _TabScreenState extends State<TabScreen> {
     },
     {
       'page': FeedbackScreen(),
-      'title': 'Circular',
+      'title': 'Feedback',
     },
     {
       'page': NotificationScreen(),
@@ -33,7 +33,7 @@ class _TabScreenState extends State<TabScreen> {
     },
     {
       'page': CircularScreen(),
-      'title': 'Circular',
+      'title': 'Circulars',
     },
     {
       'page': ProfileScreen(),
@@ -45,7 +45,10 @@ class _TabScreenState extends State<TabScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: (currentIndex==0)?null:AppBar(
-        title: Text('DFS'),
+        title: Text(_pages[currentIndex]['title'], style: TextStyle(color: Colors.blue),),
+        automaticallyImplyLeading: false,
+        elevation: 8,
+        backgroundColor: Colors.white,
       ),
       body: _pages[currentIndex]['page'],
       bottomNavigationBar: ConvexAppBar(
@@ -59,7 +62,7 @@ class _TabScreenState extends State<TabScreen> {
         style: TabStyle.flip,
         height: 60,
         backgroundColor: Colors.white,
-        color: Colors.black,
+        color: Colors.black54,
         activeColor: Theme.of(context).primaryColor,
         top: -20,
         onTap: (index) => setState(() {

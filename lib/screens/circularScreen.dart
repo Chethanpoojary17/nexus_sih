@@ -255,7 +255,7 @@ class _CircularScreenState extends State<CircularScreen>
               );
             },
           ),
-          if(box.read('category')=='Tier 1')Bubble(
+          if(box.read('category')=='Tier-1')Bubble(
             title: "Post",
             iconColor: Colors.white,
             bubbleColor: Theme.of(context).primaryColor,

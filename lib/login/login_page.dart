@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           'LOGIN',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.blue,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -269,6 +269,11 @@ bool _isLoading=false;
               ),
               Container(
                 height: double.infinity,
+                width: double.infinity,
+                color: Color(0x80242A62),
+              ),
+              Container(
+                height: double.infinity,
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
@@ -287,6 +292,7 @@ bool _isLoading=false;
                             fontFamily: 'OpenSans',
                             fontSize: 30.0,
                             fontWeight: FontWeight.bold,
+                            shadows: [Shadow(color: Colors.black, blurRadius: 2)]
                           ),
                         ),
                         SizedBox(height: 30.0),

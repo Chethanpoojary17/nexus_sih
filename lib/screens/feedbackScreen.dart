@@ -16,7 +16,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   List<String> uname=[], upropic=[], uid=[], utype=[];
 
   getUsers() async {
-    if (box.read('category') == 'Tier 1') {
+    if (box.read('category') == 'Tier-1') {
       Firestore.instance
           .collection('feedback')
           .where('toUid', isEqualTo: box.read('currentUid'))
@@ -35,6 +35,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         upropic = upropic.toSet().toList();
         utype = utype.toSet().toList();
         print(uid);
+        setState(() {
+
+        });
       });
     }
   }
@@ -48,6 +51,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return StreamBuilder(
         stream:Firestore.instance
             .collection('Profile')
