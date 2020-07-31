@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FlutterChat',
+      title: 'Sevak',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         accentColor:Color(0xfffff3f3),

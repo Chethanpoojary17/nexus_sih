@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class SliderCustom extends StatelessWidget {
-  var slider = [
-    'https://i1.wp.com/blogsyear.com/wp-content/uploads/2020/03/cronoa-virus-updated.png?fit=875%2C395&ssl=1'
+  List<String> slider = [
+    'https://i1.wp.com/blogsyear.com/wp-content/uploads/2020/03/cronoa-virus-updated.png?fit=875%2C395&ssl=1',
     'https://th.bing.com/th/id/OIP.rmff1CN9Brw6lRlaPUnAAgHaD4?pid=Api&rs=1',
     'http://www.sarkarimirror.com/wp-content/uploads/2017/08/MIN-OF-FINANCE.jpg'
   ];

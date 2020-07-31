@@ -61,6 +61,8 @@ dependencies:
   sliverbar_with_card: ^0.1.5
   firebase_messaging: ^6.0.16
   bubble: ^1.1.9+1
+  flutter_local_notifications: ^1.4.2
+  easy_localization: ^2.3.2
 
 dev_dependencies:
   flutter_test:

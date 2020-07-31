@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nexus_sih/login/editProfile.dart';
 import 'package:nexus_sih/login/styleSignin.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -201,8 +203,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               width: 180,
                               child: RaisedButton(
                                 onPressed: ()async{
-                                 var user= await FirebaseAuth.instance.signOut();
-                                 box.erase();
+                                  Alert(
+                                    context: context,
+                                    type: AlertType.warning,
+                                    title: documents[0]['name'],
+                                    desc: "Do you want to logout?",
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "Yes",
+                                          style: TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        onPressed: () async{
+                                          var user= await FirebaseAuth.instance.signOut();
+                                          box.erase();
+                                          SystemNavigator.pop();},
+                                        width: 120,color: Colors.blue,
+                                      ),
+                                      DialogButton(
+                                        child: Text(
+                                          "Cancel",
+                                          style: TextStyle(color: Colors.white, fontSize: 20),
+                                        ),
+                                        onPressed: () => Navigator.of(context).pop(true),
+                                        width: 120,
+                                        color: Colors.blue,
+                                      )
+                                    ],
+                                  ).show();
                                 },
                                 child: Text(
                                   'Log Out',

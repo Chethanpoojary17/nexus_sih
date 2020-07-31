@@ -1,4 +1,5 @@
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -195,9 +196,11 @@ bool _isLoading=false;
       });
       FirebaseAuth.instance
           .signInWithEmailAndPassword(
-              email: this.email, password: this.password)
+              email: this.email.trim(), password: this.password.trim())
           .then((signedInUser) async{
             final box=GetStorage();
+            final fbm = FirebaseMessaging();
+            var token=await fbm.getToken();
            final info=await Firestore.instance.collection('Profile').where('userid',isEqualTo:signedInUser.user.uid ).getDocuments();
            print(info.documents[0]['name']);
             box.write('currentUid', signedInUser.user.uid);
@@ -205,7 +208,10 @@ bool _isLoading=false;
             box.write('currentProfile', info.documents[0]['proPic']);
             box.write('category', info.documents[0]['category']);
             print(box.read('currentUid'));
-          Navigator.of(context).push(MaterialPageRoute(
+            Firestore.instance.collection('Profile').document(signedInUser.user.uid).updateData({
+              'token':token,
+            });
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => TabScreen(),));
       setState(() {
         _isLoading=false;

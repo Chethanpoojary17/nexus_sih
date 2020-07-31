@@ -2,10 +2,12 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:fluttericon/zocial_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nexus_sih/screens/circularScreen.dart';
 import 'package:nexus_sih/screens/feedbackScreen.dart';
 import 'package:nexus_sih/screens/homeScreen.dart';
@@ -40,6 +42,73 @@ class _TabScreenState extends State<TabScreen> {
       'title': 'Profile',
     },
   ];
+  bool feedbit=false;
+  var news='',fb='',circ='',noti='';
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final fbm = FirebaseMessaging();
+    fbm.requestNotificationPermissions();
+    fbm.configure(onMessage:
+        (Map<String, dynamic> message) async {
+      setState(() {
+        if(message['notification']['title']=='newsfeed')
+        {news='New';}else if(message['notification']['title']=='feedback'){
+          fb='New';
+        }else if(message['notification']['title']=='notification'){
+          noti='New';
+        }else if(message['notification']['title']=='circular'){
+          circ='New';
+        }
+      });
+      print("onMessage: $message");
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Container(
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(message['notification']['title'],style: GoogleFonts.lato(textStyle: TextStyle(color:Colors.blue,fontSize: 20,fontWeight: FontWeight.bold)),textAlign: TextAlign.start,),
+                Text(message['notification']['body'],style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.normal)),textAlign: TextAlign.start,)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    }, onLaunch: (Map<String, dynamic> message) async {
+      setState(() {
+        if(message['notification']['title']=='newsfeed')
+        {news='New';}else if(message['notification']['title']=='feedback'){
+          fb='New';
+        }else if(message['notification']['title']=='notification'){
+          noti='New';
+        }else if(message['notification']['title']=='circular'){
+          circ='New';
+        }
+      });
+    }, onResume: (Map<String, dynamic> message) async {
+      setState(() {
+        if(message['notification']['title']=='newsfeed')
+        {currentIndex=2;}else if(message['notification']['title']=='feedback'){
+          fb='New';
+        }else if(message['notification']['title']=='notification'){
+          noti='New';
+        }else if(message['notification']['title']=='circular'){
+          circ='New';
+        }
+      });
+    });
+    fbm.subscribeToTopic('chat');
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +120,7 @@ class _TabScreenState extends State<TabScreen> {
         backgroundColor: Colors.white,
       ),
       body: _pages[currentIndex]['page'],
-      bottomNavigationBar: ConvexAppBar(
+      bottomNavigationBar: ConvexAppBar.badge({0: news, 1: fb, 2: noti,3:circ},
         items: [
           TabItem(icon: Icons.home, title: 'Home',),
           TabItem(icon: Icons.feedback, title: 'FeedBack'),
@@ -65,9 +134,28 @@ class _TabScreenState extends State<TabScreen> {
         color: Colors.black54,
         activeColor: Theme.of(context).primaryColor,
         top: -20,
-        onTap: (index) => setState(() {
+        onTap: (index) {
+
+          if(index==0){
+            setState(() {
+              news='';
+            });
+          }else if(index==1){
+            setState(() {
+              fb='';
+            });
+          }else if(index==2){
+            setState(() {
+              noti='';
+            });
+          }else if(index==3){
+            setState(() {
+              circ='';
+            });
+          }
+        setState(() {
           currentIndex = index;
-        }),
+        });}
       )
 //      CurvedNavigationBar(
 //      backgroundColor: Color(0xfffff3f3),

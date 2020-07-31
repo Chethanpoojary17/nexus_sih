@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -413,21 +414,24 @@ class _SignupScreenState extends State<SignupScreen> {
         else{
           url='';
         }
+        final fbm = FirebaseMessaging();
+        var token=await fbm.getToken();
         await Firestore.instance.collection("Profile").document(user.user.uid).setData({
           'name': this.name.trim(),
           'email': this.email.trim(),
           'password': this.password.trim(),
           'govtid': this.govtid.trim(),
-          'category': this.category.trim(),
+          'category': this._selectedcategory.trim(),
           'phone': this.phone,
           'userid': user.user.uid,
           'proPic':url,
           'type':designation,
+          'token':token,
         });
         setState(() {
           _isLoading=false;
         });
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
         setState(() {

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:nexus_sih/widget/silverPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
@@ -20,7 +21,6 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> with SingleTickerProviderStateMixin{
-var slider=['https://th.bing.com/th/id/OIP.rmff1CN9Brw6lRlaPUnAAgHaD4?pid=Api&rs=1','http://www.sarkarimirror.com/wp-content/uploads/2017/08/MIN-OF-FINANCE.jpg'];
   Animation<double> _animation;
   AnimationController _animationController;
   IconData ic=Icons.add;
@@ -38,7 +38,6 @@ var slider=['https://th.bing.com/th/id/OIP.rmff1CN9Brw6lRlaPUnAAgHaD4?pid=Api&rs
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     super.initState();
-
 
   }
   Widget textDisplay(String text, double size, FontWeight fweight,
@@ -193,7 +192,7 @@ ScrollController hcont;
       ),
       floatingActionButtonLocation:FloatingActionButtonLocation.endFloat,
       //Init Floating Action Bubble
-      floatingActionButton: (box.read('category')=='Tier 1')?FloatingActionBubble(
+      floatingActionButton: (box.read('category')=='Tier-1')?FloatingActionBubble(
         // Menu items
         items: <Bubble>[
           // Floating action menu item
